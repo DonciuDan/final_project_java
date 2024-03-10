@@ -4,6 +4,7 @@ import com.final_project_java.exception.ResourceNotFoundException;
 import com.final_project_java.model.Customer;
 import com.final_project_java.model.Item;
 import com.final_project_java.service.CustomerService;
+import com.final_project_java.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,38 +21,45 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping //http://localhost:8081/api/customers
-    public ResponseEntity<List<Customer>> getAllCustomers() {
+    public ResponseEntity<ApiResponse> getAllCustomers() {
         List<Customer> customersList = customerService.getAllCustomers();
         if (customersList.isEmpty()) {
             throw new ResourceNotFoundException("The DB doesn't contain any customers");
         }
-        return new ResponseEntity<>(customersList, HttpStatus.OK);
+//        ApiResponse response = new ApiResponse.Builder()
+//                .status(HttpStatus.OK.value())
+//                .message("Customer list")
+//                .data(customersList)
+//                .build();
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Customer List",customersList));
     }
 
     @GetMapping("/customersById/{id}") //http://localhost:8081/api/customers/customersById/{id}
-    public ResponseEntity<Optional<Customer>> getAllCustomerById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> getAllCustomerById(@PathVariable Long id) {
         Optional<Customer> customerById = customerService.getCustomerById(id);
         customerById.orElseThrow(() ->
                 new ResourceNotFoundException("The customer with id : " + id + " doesn't exist in DB"));
-        return new ResponseEntity<>(customerById, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Customer by ID",customerById.get()));
     }
 
     @GetMapping("/customersByName/{name}") //http://localhost:8081/api/customers/customersByName/{name}
-    public ResponseEntity<List<Customer>> getAllCustomersByName(@PathVariable String name) {
+    public ResponseEntity<ApiResponse> getAllCustomersByName(@PathVariable String name) {
         List<Customer> customersByName = customerService.getCustomersByName(name);
         if (customersByName.isEmpty()) {
             throw new ResourceNotFoundException("The client with name : " + name + " doesn't exist in DB");
         }
-        return new ResponseEntity<>(customersByName, HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Custome by name",customersByName));
     }
 
     @PostMapping("/addNewCustomer") //http://localhost:8081/api/customers/addNewCustomer
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.saveCustomer(customer), HttpStatus.OK);
+    public ResponseEntity<ApiResponse> saveCustomer(@RequestBody Customer customer) {
+        Customer customer1 = customerService.saveCustomer(customer);
+        return ResponseEntity.ok(ApiResponse.success("Add customer",customer1));
     }
 
     @PutMapping("/updateCustomer") //http://localhost:8081/api/customers/updateCustomer
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<ApiResponse> updateCustomer(@RequestBody Customer customer) {
         if (customer.getId() == null){
             throw new ResourceNotFoundException("Item id is not valid");
         }
@@ -59,20 +67,17 @@ public class CustomerController {
         customerOptional.orElseThrow(()->
                 new ResourceNotFoundException("The item id: " + customer.getId() + " doesn't exist in DB"));
 
-        return new ResponseEntity<>(customerService.updateCustomer(customer), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Updated customer successful",customerService.updateCustomer(customer)));
     }
 
     @DeleteMapping("/deleteCustomerById/{id}") //http://localhost:8081/api/customers/deleteCustomerById/{id}
-    public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse> deleteCustomerById(@PathVariable Long id) {
         Optional<Customer> customerOptional = customerService.getCustomerById(id);
         customerOptional.orElseThrow(() ->
                 new ResourceNotFoundException("The customer with id : " + id + " doesn't exist in DB"));
         customerService.deleteCustomerById(id);
-        return new ResponseEntity<>("Customer with id: " + id + " deleted successfully", HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.success("Customer with id: " + id + " deleted successfully",null));
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
+
 }
