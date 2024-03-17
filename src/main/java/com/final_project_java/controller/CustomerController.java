@@ -2,11 +2,9 @@ package com.final_project_java.controller;
 
 import com.final_project_java.exception.ResourceNotFoundException;
 import com.final_project_java.model.Customer;
-import com.final_project_java.model.Item;
 import com.final_project_java.service.CustomerService;
 import com.final_project_java.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +13,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/api/customers")
 public class CustomerController {
 
@@ -49,7 +48,7 @@ public class CustomerController {
         if (customersByName.isEmpty()) {
             throw new ResourceNotFoundException("The client with name : " + name + " doesn't exist in DB");
         }
-        return ResponseEntity.ok(ApiResponse.success("Custome by name",customersByName));
+        return ResponseEntity.ok(ApiResponse.success("Customer by name",customersByName));
     }
 
     @PostMapping("/addNewCustomer") //http://localhost:8081/api/customers/addNewCustomer

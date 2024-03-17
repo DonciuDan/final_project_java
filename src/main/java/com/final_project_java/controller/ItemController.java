@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController //@RestController VS @Controller -> Spring rest api
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/api/items")
 public class ItemController {
     //@RestController = @Controller + @ResponseBody
