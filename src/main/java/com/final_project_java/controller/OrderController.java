@@ -24,9 +24,9 @@ public class OrderController {
     @GetMapping //http://localhost:8081/api/orders
     public ResponseEntity<ApiResponse> getAllOrders() {
         List<Order> ordersList = orderService.getAllOrders();
-        if (ordersList.isEmpty()) {
-            throw new ResourceNotFoundException("No orders found in DB");
-        }
+//        if (ordersList.isEmpty()) {
+//            throw new ResourceNotFoundException("No orders found in DB");
+//        }
         return ResponseEntity.ok(ApiResponse.success("Order List",ordersList));
     }
 

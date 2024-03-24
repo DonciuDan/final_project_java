@@ -22,9 +22,9 @@ public class CustomerController {
     @GetMapping //http://localhost:8081/api/customers
     public ResponseEntity<ApiResponse> getAllCustomers() {
         List<Customer> customersList = customerService.getAllCustomers();
-        if (customersList.isEmpty()) {
-            throw new ResourceNotFoundException("The DB doesn't contain any customers");
-        }
+//        if (customersList.isEmpty()) {
+//            throw new ResourceNotFoundException("The DB doesn't contain any customers");
+//        }
 //        ApiResponse response = new ApiResponse.Builder()
 //                .status(HttpStatus.OK.value())
 //                .message("Customer list")

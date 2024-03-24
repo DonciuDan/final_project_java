@@ -25,7 +25,8 @@ public class Item {
     @Column(name = "item_image")
     private String image;
     @Column(name = "item_category")
-    private String category;
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
 
     //Many-to-many relationship with order entity
     @ManyToMany(mappedBy = "itemList", fetch = FetchType.LAZY)

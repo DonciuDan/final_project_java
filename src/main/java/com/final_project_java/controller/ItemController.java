@@ -32,9 +32,9 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<ApiResponse> getAllItems() {
         List<Item> itemsList = itemService.readAllItems();
-        if (itemsList.isEmpty()) {
-            throw new ResourceNotFoundException("No items found in DB");
-        }
+//        if (itemsList.isEmpty()) {
+//            throw new ResourceNotFoundException("No items found in DB");
+//        }
         return ResponseEntity.ok(ApiResponse.success("All items list",itemsList));
     }
 
