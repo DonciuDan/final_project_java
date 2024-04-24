@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 //@Builder
 public class ApiResponse {
-    private int status; //statusul de request: 200,400,500
+    private int status;
     private String message;
     private Object data;
 

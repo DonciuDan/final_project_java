@@ -1,5 +1,6 @@
 package com.final_project_java.service.impl;
 
+import com.final_project_java.model.Category;
 import com.final_project_java.model.Item;
 import com.final_project_java.repository.ItemRepository;
 import com.final_project_java.service.ItemService;
@@ -52,6 +53,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getAllItemsByCategory(String category) {
-        return itemRepository.searchItemsByCategory(category);
+        return itemRepository.searchItemsByCategory(Category.valueOf(category));
     }
 }

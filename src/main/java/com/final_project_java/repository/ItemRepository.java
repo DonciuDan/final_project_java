@@ -1,5 +1,6 @@
 package com.final_project_java.repository;
 
+import com.final_project_java.model.Category;
 import com.final_project_java.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> { //<Entitstea
 
 
     List<Item> searchItemsByName(String name);
-    List<Item> searchItemsByCategory(String category);
+    List<Item> searchItemsByCategory(Category category);
 
 }

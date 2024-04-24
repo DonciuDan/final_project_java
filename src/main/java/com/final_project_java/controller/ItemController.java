@@ -1,6 +1,7 @@
 package com.final_project_java.controller;
 
 import com.final_project_java.exception.ResourceNotFoundException;
+import com.final_project_java.model.Category;
 import com.final_project_java.model.Item;
 import com.final_project_java.service.ItemService;
 import com.final_project_java.utils.ApiResponse;
@@ -46,6 +47,8 @@ public class ItemController {
         return ResponseEntity.ok(ApiResponse.success("Item by id",itemById.get())); //pui get cand e optional
     }
 
+
+
     @GetMapping("/itemsByName/{name}")
     public ResponseEntity<ApiResponse> getAllItemsByName(@PathVariable String name) {
         List<Item> items = itemService.getAllItemsByName(name);
@@ -64,6 +67,7 @@ public class ItemController {
         }
         return ResponseEntity.ok(ApiResponse.success("All items by Category",itemsByCategory));
     }
+
 
 
     //POST -> CREATE
